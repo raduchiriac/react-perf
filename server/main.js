@@ -20,10 +20,9 @@ Meteor.methods({
     });
   }
 });
-
 Meteor.startup(function () {
   if (Players.find().count() === 0) {
-    _(10000).times(function (n) {
+    _(1000).times(function (n) {
       var u = Fake.user({
         fields: ['name', 'surname', 'email']
       });
@@ -33,9 +32,10 @@ Meteor.startup(function () {
     });
   }
 });
-
-Meteor.publish("players", function () {
-  return Players.find({}, {
-    limit: 500
+Meteor.publish("players", function (options) {
+  check(options, {
+    sort: Object,
+    limit: Number
   });
+  return Players.find({}, options);
 });

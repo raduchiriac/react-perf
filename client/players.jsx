@@ -7,14 +7,12 @@ var Leaderboard = ReactMeteor.createClass({
   // <Leaderboard x={1} y={2} />.
   templateName: "Players",
 
-  startMeteorSubscriptions: function() {
-    Meteor.subscribe("players");
-  },
-
   getMeteorState: function() {
-    var selectedPlayer = Players.findOne(Session.get("selected_player"));
+    var selectedPlayer = Players.findOne(Session.get("selected_player")),
+      subscribedPlayers = Router.current().data().fetch();
+
     return {
-      players: Players.find({}, {sort: {score: -1, name: 1}}).fetch(),
+      players: subscribedPlayers,
       selectedPlayer: selectedPlayer,
       selectedName: selectedPlayer && (selectedPlayer.name + ' ' + selectedPlayer.surname)
     };
