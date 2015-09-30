@@ -79,7 +79,7 @@ App = React.createClass({
   },
   render() {
     let bottomBar;
-    this.getStats();
+    //this.getStats();
     if (this.state.selectedPlayerId) {
       bottomBar = (
         <div className="details">
