@@ -22,7 +22,7 @@ Meteor.methods({
 });
 Meteor.startup(function () {
   if (Players.find().count() === 0) {
-    _(1000).times(function (n) {
+    _(100).times(function (n) {
       var u = Fake.user({
         fields: ['name', 'surname', 'email']
       });
@@ -31,11 +31,4 @@ Meteor.startup(function () {
       Players.insert(u);
     });
   }
-});
-Meteor.publish("players", function (options) {
-  check(options, {
-    sort: Object,
-    limit: Number
-  });
-  return Players.find({}, options);
 });
