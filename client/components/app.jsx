@@ -25,7 +25,10 @@ App = React.createClass({
       sort: {
         score: -1
       },
-      limit: 0
+      limit: 0,
+      fields: {
+        phrase: 0
+      }
     });
     return {
       players: Players.find({}, {
@@ -60,8 +63,23 @@ App = React.createClass({
       intervalForRandomness: 0
     });
   },
+  getStats() {
+    var script = document.createElement('script');
+    script.onload = function () {
+      var stats = new Stats();
+      stats.domElement.style.cssText = 'position:fixed;left:0;top:0;z-index:10000';
+      document.body.appendChild(stats.domElement);
+      requestAnimationFrame(function loop() {
+        stats.update();
+        requestAnimationFrame(loop);
+      });
+    };
+    script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';
+    document.head.appendChild(script);
+  },
   render() {
     let bottomBar;
+    this.getStats();
     if (this.state.selectedPlayerId) {
       bottomBar = (
         <div className="details">
