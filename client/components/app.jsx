@@ -8,6 +8,7 @@ App = React.createClass({
   mixins: [ReactMeteorData],
   getInitialState: function () {
     return {
+      intervalForRandomness: 0,
       selectedPlayerId: null
     };
   },
@@ -20,6 +21,12 @@ App = React.createClass({
     };
   },
   getMeteorData() {
+    subs.subscribe('players', {
+      sort: {
+        score: -1
+      },
+      limit: 0
+    });
     return {
       players: Players.find({}, {
         sort: {
@@ -42,27 +49,15 @@ App = React.createClass({
       }
     });
   },
-  startRandom() {
-    var intervalForRandomness = 0;
-    throwRandomness = function () {
-      intervalForRandomness = Meteor.setInterval(function () {
-        Meteor.call('addRandomPoints');
-      }, 100);
-    };
-
-    stopRandomness = function () {
-      Meteor.clearInterval(intervalForRandomness);
-    };
-    Template.Layout.events({
-      'click .inc': function (event) {
-        if (!!intervalForRandomness) {
-          stopRandomness();
-          $(event.target).html('Start Randomness');
-        } else {
-          throwRandomness();
-          $(event.target).html('Stop Randomness');
-        }
-      }
+  startRandomness() {
+    this.state.intervalForRandomness = Meteor.setInterval(function () {
+      Meteor.call('addRandomPoints');
+    }, 100);
+  },
+  stopRandomness() {
+    Meteor.clearInterval(this.state.intervalForRandomness);
+    this.setState({
+      intervalForRandomness: 0
     });
   },
   render() {
@@ -89,7 +84,11 @@ App = React.createClass({
         <h1 className="title">Leaderboard</h1>
         <div className="subtitle">Select a businessman to give him points</div>
         <div style={{textAlign:"center"}} className="actions">
-          <RaisedButton label="Start Randomness" />
+          <RaisedButton label={!!this.state.intervalForRandomness?"Stop Randomness":"Start Randomness"}
+    onClick = {
+      !!this.state.intervalForRandomness ? this.stopRandomness : this.startRandomness
+    }
+    />
         </div>
         <Leaderboard players={this.data.players}
           selectedPlayerId={this.state.selectedPlayerId}

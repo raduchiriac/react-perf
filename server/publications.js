@@ -1,4 +1,3 @@
-/*
 Meteor.publish("players", function (options) {
   check(options, {
     sort: Object,
@@ -6,4 +5,3 @@ Meteor.publish("players", function (options) {
   });
   return Players.find({}, options);
 });
-*/
