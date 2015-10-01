@@ -1,5 +1,6 @@
 const {
-  RaisedButton
+  RaisedButton,
+  RefreshIndicator
 } = mui;
 
 const ThemeManager = new mui.Styles.ThemeManager();
@@ -78,7 +79,7 @@ App = React.createClass({
     document.head.appendChild(script);
   },
   render() {
-    let bottomBar;
+    let bottomBar, loading;
     //this.getStats();
     if (this.state.selectedPlayerId) {
       bottomBar = (
