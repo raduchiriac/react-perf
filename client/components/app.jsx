@@ -104,7 +104,7 @@ App = React.createClass({
     return (
       <div className="outer">
         <div className="logo"></div>
-        <h1 className="title">Leaderboard</h1>
+        <h1 className="title"><span className="turq">React</span>oboard</h1>
         <div className="subtitle">Select a businessman to give him points</div>
         <div style={{textAlign:"center"}} className="actions">
           <RaisedButton label={!!this.state.intervalForRandomness?"Stop Randomness":"Start Randomness"}
