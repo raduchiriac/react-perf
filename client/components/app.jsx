@@ -38,6 +38,7 @@ App = React.createClass({
           name: 1
         }
       }).fetch(),
+      isReady: subs.ready(),
       selectedPlayer: Players.findOne(this.state.selectedPlayerId)
     }
   },
@@ -79,8 +80,11 @@ App = React.createClass({
     document.head.appendChild(script);
   },
   render() {
-    let bottomBar, loading;
+    let bottomBar;
     //this.getStats();
+    if (this.data.isReady) {
+      // return (<RefreshIndicator size={40} left={80} top={5} status="loading" />);
+    }
     if (this.state.selectedPlayerId) {
       bottomBar = (
         <div className="details">
